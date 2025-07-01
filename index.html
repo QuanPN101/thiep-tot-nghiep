@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thiệp Mời Tốt Nghiệp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f78ca0, #fd868c, #fe9a8b);
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .invitation {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.95);
+      margin: 60px auto;
+      max-width: 400px;
+      padding: 30px 20px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #e74c3c;
+    }
+
+    .avatar-container {
+      position: relative;
+      display: inline-block;
+      margin: 20px 0;
+    }
+
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #fff;
+    }
+
+    .icon-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #f8d7ff;
+      color: #8a2be2;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: 2px solid white;
+    }
+
+    .details p {
+      font-size: 16px;
+      color: #333;
+      margin: 8px 0;
+    }
+
+    .footer {
+      font-size: 13px;
+      color: #555;
+      margin-top: 20px;
+    }
+
+    #balloons .balloon {
+      position: absolute;
+      width: 30px;
+      height: 40px;
+      background: radial-gradient(circle, #fff, #f06292);
+      border-radius: 50%;
+      animation: float 6s linear infinite;
+      z-index: 1;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0% {
+        bottom: -50px;
+        transform: translateX(0);
+      }
+      100% {
+        bottom: 110%;
+        transform: translateX(30px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworks"></canvas>
+  <div id="balloons"></div>
+
+  <div class="invitation">
+    <h1>🎓 Thiệp Mời Tốt Nghiệp</h1>
+    <div class="avatar-container">
+      <img class="profile-img" src="https://i.imgur.com/8Km9tLL.png" alt="Ảnh tốt nghiệp">
+      <div class="icon-badge">🎉</div>
+    </div>
+    <div class="details">
+      <p><strong>Minh Quân trân trọng kính mời</strong></p>
+      <p>📍 Hội trường A, Đại học ABC</p>
+      <p>📅 Ngày 20 tháng 7, 2025</p>
+      <p>⏰ 9:00 – 11:30 sáng</p>
+    </div>
+    <div class="footer">
+      Vui lòng xác nhận tham dự qua Zalo hoặc Facebook.<br>
+      Rất mong được gặp bạn tại buổi lễ!
+    </div>
+  </div>
+
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/audio/2023/03/06/audio_cfc0c1e8e3.mp3" type="audio/mpeg">
+    Trình duyệt không hỗ trợ audio.
+  </audio>
+
+  <script>
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const particles = [];
+
+    function resizeCanvas() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function Particle(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.radius = Math.random() * 2 + 1;
+      this.color = color;
+      this.angle = Math.random() * 2 * Math.PI;
+      this.speed = Math.random() * 4 + 1;
+      this.gravity = 0.05;
+      this.alpha = 1;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += Math.cos(this.angle) * this.speed;
+      this.y += Math.sin(this.angle) * this.speed + this.gravity;
+      this.alpha -= 0.015;
+    }
+
+    function createFirework() {
+      const colors = ['#ff3f34', '#ffdd59', '#32ff7e', '#18dcff', '#7d5fff'];
+      const x = Math.random() * w;
+      const y = Math.random() * h / 2;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      for (let i = 0; i < 50; i++) {
+        particles.push(new Particle(x, y, color));
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${hexToRgb(p.color)}, ${p.alpha})`;
+        ctx.fill();
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.replace("#", ""), 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return `${r}, ${g}, ${b}`;
+    }
+
+    setInterval(createFirework, 1000);
+    animate();
+
+    // Balloons
+    const balloonContainer = document.getElementById('balloons');
+    function createBalloon() {
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      balloon.style.left = Math.random() * 100 + '%';
+      balloon.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      balloon.style.background = `radial-gradient(circle, #fff, hsl(${Math.random()*360}, 70%, 70%))`;
+      balloonContainer.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 10000);
+    }
+    setInterval(createBalloon, 500);
+  </script>
+</body>
+</html>
