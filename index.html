@@ -7,6 +7,7 @@
   <style>
     body {
       margin: 0;
+      padding: 20px;
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #f78ca0, #fd868c, #fe9a8b);
       overflow: hidden;
@@ -17,47 +18,46 @@
       padding: 30px 20px;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      width: 90%;
+      width: 100%;
       max-width: 400px;
       color: #333;
       text-align: center;
-      margin: 80px auto;
+      margin: 60px auto;
       position: relative;
       z-index: 10;
     }
 
     .avatar-container {
-        position: relative;
-        display: inline-block;
-        margin: 20px 0;
+      position: relative;
+      display: inline-block;
+      margin: 20px 0;
     }
 
     .profile-img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 5px solid #fff;
-        display: block;
+      width: 120px;
+      height: 120px;
+      border-radius: 40%;
+      object-fit: cover;
+      border: 5px solid #ff9a9a;
+      display: block;
     }
 
     .icon-badge {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        background: #f8d7ff;
-        color: #8a2be2;
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 18px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        border: 2px solid white;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #f8d7ff;
+      color: #8a2be2;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: 2px solid white;
     }
-
 
     .subtitle {
       background: #fe9a8b;
@@ -72,15 +72,6 @@
     .invitation h1 {
       font-size: 24px;
       margin: 12px 0;
-    }
-
-    .profile-img {
-      width: 120px;
-      height: 120px;
-      border-radius: 40%;
-      object-fit: cover;
-      border: 5px solid #ff9a9a;
-      margin: 20px 0;
     }
 
     .details {
@@ -105,7 +96,7 @@
       width: 30px;
       height: 40px;
       background: radial-gradient(circle, #fff, #f06292);
-      border-radius: 50% 50% 50% 50%;
+      border-radius: 50%;
       animation: float 6s linear infinite;
       z-index: 1;
       opacity: 0.8;
@@ -121,6 +112,18 @@
         transform: translateX(30px);
       }
     }
+
+    /* Responsive cho điện thoại nhỏ */
+    @media (max-width: 480px) {
+      .invitation {
+        padding: 20px 15px;
+      }
+
+      .profile-img {
+        width: 100px;
+        height: 100px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -133,8 +136,8 @@
     <div class="subtitle">THIỆP MỜI TỐT NGHIỆP</div>
     <h1>Lễ Tốt Nghiệp của Nhật Quân</h1>
     <div class="avatar-container">
-        <img class="profile-img" src="https://i.imgur.com/8Km9tLL.png" alt="Ảnh tốt nghiệp">
-        <div class="icon-badge">🎉</div>
+      <img class="profile-img" src="https://i.imgur.com/8Km9tLL.png" alt="Ảnh tốt nghiệp">
+      <div class="icon-badge">🎉</div>
     </div>
 
     <div class="details">
@@ -172,7 +175,7 @@
       }, 10000);
     }
 
-    setInterval(createBalloon, 500); // tạo bóng mỗi 0.5s
+    setInterval(createBalloon, 500);
   </script>
 </body>
 </html>
